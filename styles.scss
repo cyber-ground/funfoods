@@ -66,7 +66,7 @@ body {
   border-radius: 20px;
   padding: 10px 10px 8px;
   opacity: .5;
-  margin-top: 50px;  // before change 100px
+  margin-top: 100px; 
   font-family: 'Fredoka One', cursive;
   font-family: 'Righteous', cursive;
   font-family: 'Secular One', sans-serif;
@@ -132,7 +132,7 @@ body {
     .front-face {
       // object-fit: cover;
       padding: 3px; 
-      transform: rotateY(180deg);
+      // transform: rotateY(180deg);
       transform: rotateY(180deg) rotateX(50deg); 
       background-color: rgb(171, 228, 255); 
     // 必ず front-face に(.js_flipと 同じstyle)を 添付する 
@@ -160,7 +160,7 @@ body {
 }
 
 .memory-card.js_flip {          // クラスのつけ方に疑問が残る!
-  transform: rotateY(180deg); 
+  // transform: rotateY(180deg); 
   transform: rotateY(180deg) rotateX(50deg); 
 }
 
