@@ -30,8 +30,8 @@ let unMatched = 0;
 
 
 function flipCard() {
-  if(lockBoard) return;            
-  if(this === firstCard) return;     
+    if(lockBoard) return;            
+    if(this === firstCard) return;     
   this.classList.add('js_flip');
   if(!hasFlippedCard) {
     hasFlippedCard = true;
@@ -91,7 +91,7 @@ function gameOver() {
 function gameOverCounter() {   
   if(unMatched === 12) {  // game over count !!   
     gameOver();                 
-  }                                                             
+  }
 }
 
 function disableCards() {
