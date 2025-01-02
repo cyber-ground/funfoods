@@ -21,6 +21,9 @@
 //                          --- FUN FOODS ---
 //--------------------------------------------------------------------
 
+html {
+  overscroll-behavior-y: none;
+}
 
 body {
   height: 100dvh;
