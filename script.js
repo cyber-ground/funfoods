@@ -3,27 +3,62 @@
 
 
 //---------------------------------------------------------------------------------------------------
-
-//                                     ----- FUN FOODS -----
+//*                                     ----- FUN FOODS -----
 //---------------------------------------------------------------------------------------------------
-
 
 
 const startBtn = document.querySelector('.start-btn'); 
 const gameClearMessage = document.querySelector('.game-clear');
 const gameOverMessage = document.querySelector('.game-over');
+const container = document.querySelector('.container');
 const cards = document.querySelectorAll('.memory-card');
 let hasFlippedCard, lockBoard; 
 let firstCard, secondCard;
 let matched,unMatched;
+let touch = false;
+let startGame = false;
+var bgmHowl = new Howl({src: ['mp3/bgm.mp3'], loop:true, volume: 0.05});
+var flipCardHowl = new Howl({src: ['mp3/flipCard.mp3'], volume: 0.5});
+var unmatchedHowl = new Howl({src: ['mp3/unmatched.mp3'], volume: 0.5});
+var matchedHowl = new Howl({src: ['mp3/matched.mp3'], volume: 0.5});
+var gameClearHowl = new Howl({src: ['mp3/gameClear.mp3'], volume: 0.1});
+var gameOverHowl = new Howl({src: ['mp3/gameOver.mp3'], volume: 0.1});
 
-  var bgmHowl = new Howl({src: ['mp3/bgm.mp3'], loop:true, volume: 0.05});
-  var flipCardHowl = new Howl({src: ['mp3/flipCard.mp3'], volume: 0.5});
-  var unmatchedHowl = new Howl({src: ['mp3/unmatched.mp3'], volume: 0.5});
-  var matchedHowl = new Howl({src: ['mp3/matched.mp3'], volume: 0.5});
-  var gameClearHowl = new Howl({src: ['mp3/gameClear.mp3'], volume: 0.1});
-  var gameOverHowl = new Howl({src: ['mp3/gameOver.mp3'], volume: 0.1});
-  
+//* touchCalloutPreventionEvents ---
+container.addEventListener('touchstart', e => e.preventDefault());
+cards.forEach(card => {
+  card.addEventListener('touchstart', e => e.preventDefault());
+});
+gameClearMessage.addEventListener('touchstart', e => e.preventDefault());
+gameOverMessage.addEventListener('touchstart', e => e.preventDefault());
+
+startBtn.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  startBtn.click();
+});
+
+const imgs = document.querySelectorAll('img');
+imgs.forEach(img => {
+  img.addEventListener('touchstart', (e) => {
+    if(startGame) {
+      if(touch) return;
+      if(touch) { e.preventDefault()}
+      if(!touch) { touch = true; e.stopPropagation()}
+    }
+  });
+
+  img.addEventListener('mousedown', (e) => {
+    touch = true; 
+    img.style.pointerEvents = 'none';
+    setTimeout(() => { img.style.pointerEvents = 'all'}, 500);
+  });
+  img.addEventListener('touchend', () => {
+    setTimeout(() => { touch = false}, 150);
+  });
+});
+
+//* ------------------------------------
+
   startBtn.classList.add('js_visible'); //*>
   startBtn.addEventListener('click', function () {
     cards.forEach(card => {
@@ -40,9 +75,10 @@ let matched,unMatched;
     matched = 0;
     unMatched = 0;
     bgmHowl.play();
+    startGame = true; //*
+    gameOverHowl.stop();
+    gameClearHowl.stop();
   });
-
-
 
 function flipCard() {
     if(lockBoard) return;            
@@ -83,7 +119,7 @@ function unMatchedCards() {
     firstCard = null;
     unMatched++; 
     gameOverCounter();
-  }, 1000);  // unflip speed 1500 
+  }, 1000); 
 }
 
 function gameClear() {
@@ -92,6 +128,7 @@ function gameClear() {
       gameClearMessage.classList.add('js_visible');
       disableCards();
       bgmHowl.stop();
+      startGame = false;
       setTimeout(() => { gameClearHowl.play()}, 800);
       setTimeout(() => {  
         startBtn.classList.add('js_visible');   
@@ -105,9 +142,10 @@ function gameOver() {
   disableCards();
   bgmHowl.stop();
   gameOverHowl.play();
+  startGame = false;
   setTimeout(() => {
     startBtn.classList.add('js_visible');          
-  }, 1500);  
+  }, 1500);  //bc1500
 }
 
 function gameOverCounter() {   
@@ -143,8 +181,6 @@ shuffleCards();
 
 //---------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------
-
-
 
 
 
